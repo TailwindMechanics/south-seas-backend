@@ -1,5 +1,7 @@
 //path: src\Lifetime\Lifetime.cs
 
+using SouthSeas.Logs;
+
 namespace SouthSeas
 {
     public class Lifetime()
