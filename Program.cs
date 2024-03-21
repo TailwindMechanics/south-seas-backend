@@ -3,7 +3,7 @@
 using Supabase;
 using Serilog;
 
-using SouthSeas.Lifetime;
+using SouthSeas;
 
 DotNetEnv.Env.Load();
 
@@ -36,7 +36,7 @@ var builder = WebApplication.CreateBuilder(args);
     // Logging
     builder.Logging.ClearProviders();
     builder.Logging.AddSerilog(SouthSeas.Logs.Loggers.System());
-    Log.Logger = SouthSeas.Logs.Loggers.Message();
+    Serilog.Log.Logger = SouthSeas.Logs.Loggers.Message();
 }
 
 var app = builder.Build();

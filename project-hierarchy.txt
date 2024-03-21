@@ -4,6 +4,7 @@ south-seas-backend
 ├─ appsettings.Development.json
 ├─ appsettings.json
 ├─ autoCommentPath.js
+├─ Dockerfile
 ├─ Program.cs
 ├─ project-hierarchy.txt
 ├─ Properties
@@ -18,6 +19,8 @@ south-seas-backend
    │  ├─ HealthController.cs
    │  ├─ MainController.cs
    │  └─ RootController.cs
+   ├─ Lifetime
+   │  └─ Lifetime.cs
    ├─ Logs
    │  ├─ Log.cs
    │  └─ Loggers.cs

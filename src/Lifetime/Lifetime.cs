@@ -1,6 +1,6 @@
 //path: src\Lifetime\Lifetime.cs
 
-namespace SouthSeas.Lifetime
+namespace SouthSeas
 {
     public class Lifetime()
     {

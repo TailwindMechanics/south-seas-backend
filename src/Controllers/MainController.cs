@@ -10,8 +10,6 @@ namespace SouthSeas.Controllers
     {
         [HttpGet("hello/world")]
         public IActionResult Get()
-        {
-            return Ok("Hello, World!");
-        }
+            => Ok("Hello, World!");
     }
 }
