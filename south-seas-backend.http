@@ -1,0 +1,6 @@
+@south_seas_backend_HostAddress = http://localhost:5232
+
+GET {{south_seas_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

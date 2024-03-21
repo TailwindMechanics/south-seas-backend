@@ -1,0 +1,46 @@
+{
+  "workbench.colorTheme": "Monokai Night",
+  "editor.codeLens": false,
+  "editor.formatOnSave": true,
+  "[csharp]": {
+    "editor.defaultFormatter": "ms-dotnettools.csharp"
+  },
+  "explorer.compactFolders": false,
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "editor.detectIndentation": false,
+  "explorer.fileNesting.patterns": {
+    "root": ".env, .gitignore, appsettings.Development.json, appsettings.json, autoCommentPath.js, Program.cs, project-hierarchy.txt, README.md, rootGrouper.js, south-seas-backend.csproj, south-seas-backend.http"
+  },
+  "material-icon-theme.folders.associations": {
+    "Properties": "Utils",
+    "External": "Import",
+    "Internal": "Export",
+    "Requests": "Upload",
+    "Agents": "Robot",
+    "Obj": "Packages",
+    "Health": "Tools",
+    "Agent": "Robot",
+    "Root": "Base",
+    "Operations": "Interface",
+    "Envars": "Secure",
+    "ConduitFrigate": "Routes",
+    "LogkeepFrigate": "Log",
+    "Lifetime": "Generator",
+    "ShipsInfo": "Delta",
+    "CentralIntelFrigate": "Admin",
+    "ClientChannels": "Client",
+    "RequestsChannel": "Upload",
+    "WebSockets": "Messages"
+  },
+  "material-icon-theme.files.associations": {
+    "root": "Tree"
+  },
+  "project-hierarchy-explorer.ignorePatterns": [
+    ".git",
+    "env",
+    "bin",
+    "obj",
+    ".vscode"
+  ]
+}

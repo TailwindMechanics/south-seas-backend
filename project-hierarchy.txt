@@ -1,0 +1,24 @@
+south-seas-backend
+├─ .env
+├─ .gitignore
+├─ appsettings.Development.json
+├─ appsettings.json
+├─ autoCommentPath.js
+├─ Program.cs
+├─ project-hierarchy.txt
+├─ Properties
+│  └─ launchSettings.json
+├─ README.md
+├─ root
+├─ rootGrouper.js
+├─ south-seas-backend.csproj
+├─ south-seas-backend.http
+└─ src
+   ├─ Controllers
+   │  ├─ HealthController.cs
+   │  ├─ MainController.cs
+   │  └─ RootController.cs
+   ├─ Logs
+   │  ├─ Log.cs
+   │  └─ Loggers.cs
+   └─ Schema
