@@ -10,7 +10,7 @@
   "explorer.fileNesting.expand": false,
   "editor.detectIndentation": false,
   "explorer.fileNesting.patterns": {
-    "root": ".env, .gitignore, appsettings.Development.json, appsettings.json, autoCommentPath.js, Program.cs, project-hierarchy.txt, README.md, rootGrouper.js, south-seas-backend.csproj, south-seas-backend.http"
+    "root": ".env, .gitignore, appsettings.Development.json, appsettings.json, autoCommentPath.js, Dockerfile, Program.cs, project-hierarchy.txt, README.md, rootGrouper.js, south-seas-backend.csproj, south-seas-backend.http"
   },
   "material-icon-theme.folders.associations": {
     "Properties": "Utils",
