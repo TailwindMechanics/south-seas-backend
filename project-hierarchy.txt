@@ -1,5 +1,4 @@
 south-seas-backend
-├─ .env
 ├─ .gitignore
 ├─ appsettings.Development.json
 ├─ appsettings.json
@@ -25,3 +24,10 @@ south-seas-backend
    │  ├─ Log.cs
    │  └─ Loggers.cs
    └─ Schema
+      ├─ AppDbContext.cs
+      ├─ Database
+      │  └─ Entity.cs
+      └─ Engine
+         ├─ Movement.cs
+         ├─ Transform.cs
+         └─ Vector3.cs

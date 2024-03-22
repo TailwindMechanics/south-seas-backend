@@ -30,7 +30,7 @@
     "ShipsInfo": "Delta",
     "CentralIntelFrigate": "Admin",
     "ClientChannels": "Client",
-    "RequestsChannel": "Upload",
+    "Migrations": "Upload",
     "WebSockets": "Messages"
   },
   "material-icon-theme.files.associations": {
@@ -38,9 +38,10 @@
   },
   "project-hierarchy-explorer.ignorePatterns": [
     ".git",
-    "env",
+    ".env",
     "bin",
     "obj",
-    ".vscode"
+    ".vscode",
+    "Migrations"
   ]
 }
