@@ -48,3 +48,33 @@ namespace SouthSeas.Schema.Database
         public DateTime UpdatedAt { get; set; }
     }
 }
+//path: src\Schema\Engine\Movement.cs
+
+namespace SouthSeas.Schema.Engine
+{
+    public class Movement
+    {
+        public float Speed { get; set; }
+        public float Direction { get; set; }
+    }
+}//path: src\Schema\Engine\Transform.cs
+
+namespace SouthSeas.Schema.Engine
+{
+    public class Transform
+    {
+        public Vector3 Position { get; set; } = new Vector3();
+        public Vector3 Rotation { get; set; } = new Vector3();
+        public Vector3 Scale { get; set; } = new Vector3();
+    }
+}//path: src\Schema\Engine\Vector3.cs
+
+namespace SouthSeas.Schema.Engine
+{
+    public class Vector3
+    {
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
+    }
+}

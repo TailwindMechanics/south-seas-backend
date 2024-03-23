@@ -10,7 +10,7 @@
   "explorer.fileNesting.expand": false,
   "editor.detectIndentation": false,
   "explorer.fileNesting.patterns": {
-    "root": ".env, .gitignore, appsettings.Development.json, appsettings.json, autoCommentPath.js, Dockerfile, Program.cs, project-hierarchy.txt, README.md, rootGrouper.js, south-seas-backend.csproj, south-seas-backend.http"
+    "root": ".env, .gitignore, appsettings.Development.json, appsettings.json, autoCommentPath.js, concatenator.js, Dockerfile, Program.cs, project-hierarchy.txt, README.md, rootGrouper.js, schema.md, south-seas-backend.csproj, south-seas-backend.http"
   },
   "material-icon-theme.folders.associations": {
     "Properties": "Utils",
@@ -19,7 +19,7 @@
     "Requests": "Upload",
     "Agents": "Robot",
     "Obj": "Packages",
-    "Health": "Tools",
+    "Engine": "Tools",
     "Agent": "Robot",
     "Root": "Base",
     "Operations": "Interface",
@@ -31,7 +31,8 @@
     "CentralIntelFrigate": "Admin",
     "ClientChannels": "Client",
     "Migrations": "Upload",
-    "WebSockets": "Messages"
+    "WebSockets": "Messages",
+    "SchemaGen": "Class"
   },
   "material-icon-theme.files.associations": {
     "root": "Tree"

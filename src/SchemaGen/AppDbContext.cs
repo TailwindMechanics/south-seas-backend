@@ -1,17 +1,17 @@
-//path: src\Schema\AppDbContext.cs
+//path: src\SchemaGen\AppDbContext.cs
 
 using Microsoft.EntityFrameworkCore;
 
-using SouthSeas.Schema.Database;
+using SouthSeas.Schema;
 
-namespace SouthSeas.Schema
+namespace SouthSeas.SchemaGen
 {
     public class AppDbContext() : DbContext
     {
         // dotnet ef migrations add InitialCreate
         // dotnet ef database update
 
-        public DbSet<Entity> Entities { get; set; }
+        public DbSet<SceneRow> SceneRows { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -23,13 +23,7 @@ namespace SouthSeas.Schema
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Entity>(entity =>
-            {
-                // Configure column types
-                entity.Property(e => e.TransformJson).HasColumnType("jsonb");
-                entity.Property(e => e.MovementJson).HasColumnType("jsonb");
-                entity.Property(s => s.Tags).HasColumnType("text[]");
-            });
+            modelBuilder.Entity<SceneRow>();
         }
     }
 }

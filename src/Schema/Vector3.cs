@@ -1,6 +1,6 @@
-//path: src\Schema\Engine\Vector3.cs
+//path: src\Schema\Vector3.cs
 
-namespace SouthSeas.Schema.Engine
+namespace SouthSeas.Schema
 {
     public class Vector3
     {
