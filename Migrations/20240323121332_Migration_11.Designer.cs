@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SouthSeas.SchemaGen;
@@ -11,9 +12,11 @@ using SouthSeas.SchemaGen;
 namespace SouthSeas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240323121332_Migration_11")]
+    partial class Migration_11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,10 +34,7 @@ namespace SouthSeas.Migrations
                         .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("Untiled");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -49,10 +49,11 @@ namespace SouthSeas.Migrations
                         .HasColumnName("id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
+                    b.Property<float>("Direction")
+                        .HasColumnType("real");
+
                     b.Property<float>("Speed")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("real")
-                        .HasDefaultValue(1f);
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -68,10 +69,7 @@ namespace SouthSeas.Migrations
                         .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("Untitled");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

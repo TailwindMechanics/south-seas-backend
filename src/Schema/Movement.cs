@@ -7,7 +7,6 @@ namespace SouthSeas.Schema
     [Table("movement")]
     public class Movement : TableEntity
     {
-        public float Speed { get; set; }
-        public float Direction { get; set; }
+        public float Speed { get; set; } = 1f;
     }
 }

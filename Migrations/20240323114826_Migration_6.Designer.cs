@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SouthSeas.SchemaGen;
@@ -11,9 +12,11 @@ using SouthSeas.SchemaGen;
 namespace SouthSeas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240323114826_Migration_6")]
+    partial class Migration_6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace SouthSeas.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("SouthSeas.Schema.Car", b =>
+            modelBuilder.Entity("SouthSeas.Schema.TableEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,61 +33,49 @@ namespace SouthSeas.Migrations
                         .HasColumnName("id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("Untiled");
-
                     b.HasKey("Id");
+
+                    b.ToTable("TableEntity");
+
+                    b.UseTptMappingStrategy();
+                });
+
+            modelBuilder.Entity("SouthSeas.Schema.Car", b =>
+                {
+                    b.HasBaseType("SouthSeas.Schema.TableEntity");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
 
                     b.ToTable("car");
                 });
 
             modelBuilder.Entity("SouthSeas.Schema.Movement", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                    b.HasBaseType("SouthSeas.Schema.TableEntity");
+
+                    b.Property<float>("Direction")
+                        .HasColumnType("real");
 
                     b.Property<float>("Speed")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("real")
-                        .HasDefaultValue(1f);
-
-                    b.HasKey("Id");
+                        .HasColumnType("real");
 
                     b.ToTable("movement");
                 });
 
             modelBuilder.Entity("SouthSeas.Schema.Player", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                    b.HasBaseType("SouthSeas.Schema.TableEntity");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("Untitled");
-
-                    b.HasKey("Id");
+                        .HasColumnType("text");
 
                     b.ToTable("player");
                 });
 
             modelBuilder.Entity("SouthSeas.Schema.SceneRow", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                    b.HasBaseType("SouthSeas.Schema.TableEntity");
 
                     b.Property<Guid?>("CarId")
                         .HasColumnType("uuid");
@@ -97,8 +88,6 @@ namespace SouthSeas.Migrations
 
                     b.Property<Guid>("TransformId")
                         .HasColumnType("uuid");
-
-                    b.HasKey("Id");
 
                     b.HasIndex("CarId");
 
@@ -113,36 +102,51 @@ namespace SouthSeas.Migrations
 
             modelBuilder.Entity("SouthSeas.Schema.Transform", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                    b.HasBaseType("SouthSeas.Schema.TableEntity");
 
                     b.Property<float[]>("Position")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("real[]")
-                        .HasDefaultValue(new[] { 0f, 0f, 0f })
                         .HasColumnName("position");
 
                     b.Property<float[]>("Rotation")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("real[]")
-                        .HasDefaultValue(new[] { 0f, 0f, 0f })
                         .HasColumnName("rotation");
 
                     b.Property<float[]>("Scale")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("real[]")
-                        .HasDefaultValue(new[] { 1f, 1f, 1f })
                         .HasColumnName("scale");
 
-                    b.HasKey("Id");
-
                     b.ToTable("transform");
+                });
+
+            modelBuilder.Entity("SouthSeas.Schema.Car", b =>
+                {
+                    b.HasOne("SouthSeas.Schema.TableEntity", null)
+                        .WithOne()
+                        .HasForeignKey("SouthSeas.Schema.Car", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SouthSeas.Schema.Movement", b =>
+                {
+                    b.HasOne("SouthSeas.Schema.TableEntity", null)
+                        .WithOne()
+                        .HasForeignKey("SouthSeas.Schema.Movement", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SouthSeas.Schema.Player", b =>
+                {
+                    b.HasOne("SouthSeas.Schema.TableEntity", null)
+                        .WithOne()
+                        .HasForeignKey("SouthSeas.Schema.Player", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SouthSeas.Schema.SceneRow", b =>
@@ -150,6 +154,12 @@ namespace SouthSeas.Migrations
                     b.HasOne("SouthSeas.Schema.Car", "Car")
                         .WithMany()
                         .HasForeignKey("CarId");
+
+                    b.HasOne("SouthSeas.Schema.TableEntity", null)
+                        .WithOne()
+                        .HasForeignKey("SouthSeas.Schema.SceneRow", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SouthSeas.Schema.Movement", "Movement")
                         .WithMany()
@@ -172,6 +182,15 @@ namespace SouthSeas.Migrations
                     b.Navigation("Player");
 
                     b.Navigation("Transform");
+                });
+
+            modelBuilder.Entity("SouthSeas.Schema.Transform", b =>
+                {
+                    b.HasOne("SouthSeas.Schema.TableEntity", null)
+                        .WithOne()
+                        .HasForeignKey("SouthSeas.Schema.Transform", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

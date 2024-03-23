@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SouthSeas.SchemaGen;
@@ -11,9 +12,11 @@ using SouthSeas.SchemaGen;
 namespace SouthSeas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240323113817_Migration_3")]
+    partial class Migration_3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,14 +30,10 @@ namespace SouthSeas.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                        .HasColumnName("id");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("Untiled");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -46,13 +45,13 @@ namespace SouthSeas.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                        .HasColumnName("id");
+
+                    b.Property<float>("Direction")
+                        .HasColumnType("real");
 
                     b.Property<float>("Speed")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("real")
-                        .HasDefaultValue(1f);
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -64,14 +63,10 @@ namespace SouthSeas.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                        .HasColumnName("id");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("text")
-                        .HasDefaultValue("Untitled");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -83,8 +78,7 @@ namespace SouthSeas.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                        .HasColumnName("id");
 
                     b.Property<Guid?>("CarId")
                         .HasColumnType("uuid");
@@ -116,28 +110,21 @@ namespace SouthSeas.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("gen_random_uuid()");
+                        .HasColumnName("id");
 
                     b.Property<float[]>("Position")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("real[]")
-                        .HasDefaultValue(new[] { 0f, 0f, 0f })
                         .HasColumnName("position");
 
                     b.Property<float[]>("Rotation")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("real[]")
-                        .HasDefaultValue(new[] { 0f, 0f, 0f })
                         .HasColumnName("rotation");
 
                     b.Property<float[]>("Scale")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("real[]")
-                        .HasDefaultValue(new[] { 1f, 1f, 1f })
                         .HasColumnName("scale");
 
                     b.HasKey("Id");

@@ -7,6 +7,6 @@ namespace SouthSeas.Schema
     [Table("player")]
     public class Player : TableEntity
     {
-        public string? Name { get; set; }
+        public string Name { get; set; } = "Untiled";
     }
 }

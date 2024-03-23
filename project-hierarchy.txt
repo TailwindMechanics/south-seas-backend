@@ -5,6 +5,8 @@ south-seas-backend
 ├─ autoCommentPath.js
 ├─ concatenator.js
 ├─ Dockerfile
+├─ Docs
+│  └─ ExampleSubscription.md
 ├─ Program.cs
 ├─ project-hierarchy.txt
 ├─ Properties
@@ -34,4 +36,5 @@ south-seas-backend
    │  ├─ Transform.cs
    │  └─ Vector3.cs
    └─ SchemaGen
-      └─ AppDbContext.cs
+      ├─ AppDbContext.cs
+      └─ ModelBuilderExtensions.cs
