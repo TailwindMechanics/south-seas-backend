@@ -29,10 +29,8 @@ south-seas-backend
    │  └─ Loggers.cs
    └─ Schema
       ├─ Columns
-      │  ├─ Bench.cs
-      │  ├─ Car.cs
-      │  ├─ Movement.cs
       │  ├─ Player.cs
+      │  ├─ Renderer.cs
       │  └─ Transform.cs
       └─ Core
          ├─ AppDbContext.cs

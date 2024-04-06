@@ -22,21 +22,11 @@ namespace SouthSeas.Schema.Columns
         public override void Init(ModelBuilder builder)
         {
             builder.Entity<Transform>()
-                .Property("ColumnId")
-                .HasDefaultValueSql("gen_random_uuid()");
-
-            builder.Entity<SceneRow>()
-                .Property("TransformColumnId")
-                .HasColumnName("transform");
-
-            builder.Entity<Transform>()
                 .Property(nameof(Position))
                 .HasDefaultValue(new float[] { 0, 0, 0 });
-
             builder.Entity<Transform>()
                 .Property(nameof(Rotation))
                 .HasDefaultValue(new float[] { 0, 0, 0 });
-
             builder.Entity<Transform>()
                 .Property(nameof(Scale))
                 .HasDefaultValue(new float[] { 1, 1, 1 });

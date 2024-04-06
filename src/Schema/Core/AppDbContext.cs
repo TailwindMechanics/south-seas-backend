@@ -2,9 +2,7 @@
 
 using Microsoft.EntityFrameworkCore;
 
-using SouthSeas.Schema.Core;
-
-namespace SouthSeas.Schema.Utils
+namespace SouthSeas.Schema.Core
 {
     public class AppDbContext : DbContext
     {
@@ -16,30 +14,17 @@ namespace SouthSeas.Schema.Utils
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            Console.WriteLine("Configuring DbContext options...");
             var connectionString = Environment.GetEnvironmentVariable("SUPABASE_CONNECTION_STRING");
             optionsBuilder.UseNpgsql(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            Console.WriteLine("OnModelCreating...");
             base.OnModelCreating(builder);
 
             Activator.CreateInstance<SceneRow>()?.Init(builder);
-
-            var tableEntityTypes = GetTableEntityTypes();
-            foreach (var entityType in tableEntityTypes)
-            {
-                var instance = Activator.CreateInstance(entityType) as SceneColumn;
-                instance?.Init(builder);
-            }
-        }
-
-        public List<Type> GetTableEntityTypes()
-        {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            return assemblies.SelectMany(a => a.GetTypes())
-                .Where(t => t != typeof(SceneColumn) && typeof(SceneColumn).IsAssignableFrom(t))
-                .ToList();
         }
     }
 }
