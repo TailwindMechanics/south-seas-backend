@@ -1,80 +1,184 @@
-//path: src\Schema\Database\Entity.cs
+//path: src\Schema\Columns\Player.cs
+
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+using SouthSeas.Schema.Core;
+
+namespace SouthSeas.Schema.Columns
+{
+    [Table("player")]
+    public class Player : SceneColumn
+    {
+        [Column("name")]
+        public string Name { get; set; } = "Untitled";
+
+        public override void Init(ModelBuilder builder)
+        {
+            builder.Entity<Player>()
+                .Property(nameof(Name))
+                .HasDefaultValue("Untitled Player");
+        }
+    }
+}//path: src\Schema\Columns\Transform.cs
+
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+using SouthSeas.Schema.Core;
+
+namespace SouthSeas.Schema.Columns
+{
+    [Table("transform")]
+    public class Transform : SceneColumn
+    {
+        [Column("position", TypeName = "real[]")]
+        public float[] Position { get; set; } = [0, 0, 0];
+
+        [Column("rotation", TypeName = "real[]")]
+        public float[] Rotation { get; set; } = [0, 0, 0];
+
+        [Column("scale", TypeName = "real[]")]
+        public float[] Scale { get; set; } = [1, 1, 1];
+
+        public override void Init(ModelBuilder builder)
+        {
+            builder.Entity<Transform>()
+                .Property(nameof(Position))
+                .HasDefaultValue(new float[] { 0, 0, 0 });
+            builder.Entity<Transform>()
+                .Property(nameof(Rotation))
+                .HasDefaultValue(new float[] { 0, 0, 0 });
+            builder.Entity<Transform>()
+                .Property(nameof(Scale))
+                .HasDefaultValue(new float[] { 1, 1, 1 });
+        }
+    }
+}//path: src\Schema\Core\AppDbContext.cs
+
+using Microsoft.EntityFrameworkCore;
+
+namespace SouthSeas.Schema.Core
+{
+    public class AppDbContext : DbContext
+    {
+        // dotnet ef migrations add Scene_1_M_1
+        // dotnet ef database update
+        // DROP TABLE IF EXISTS scene_5, __EFMigrationsHistory, bench, car, movement, player, transform;
+
+        public DbSet<SceneRow> SceneRows { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            Console.WriteLine("Configuring DbContext options...");
+            var connectionString = Environment.GetEnvironmentVariable("SUPABASE_CONNECTION_STRING");
+            optionsBuilder.UseNpgsql(connectionString);
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            Console.WriteLine("OnModelCreating...");
+            base.OnModelCreating(builder);
+
+            Activator.CreateInstance<SceneRow>()?.Init(builder);
+        }
+    }
+}
+//path: src\Schema\Core\SceneColumn.cs
 
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
-using SouthSeas.Schema.Engine;
-
-namespace SouthSeas.Schema.Database
+namespace SouthSeas.Schema.Core
 {
-    [Table("scene_main")]
-    public class Entity
+    public abstract class SceneColumn
     {
-        [NotMapped]
-        public Transform Transform { get; set; } = new Transform();
+        [Key, Column("column_id")]
+        public Guid ColumnId { get; set; }
 
-        [NotMapped]
-        public Movement? Movement { get; set; }
-
-        [Key, Column("id", Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
-
-        [Column("tags", Order = 1)]
-        public string[]? Tags { get; set; }
-
-        [Column("transform", Order = 2)]
-        public string TransformJson
-        {
-            get => JsonConvert.SerializeObject(Transform);
-            set => Transform = JsonConvert.DeserializeObject<Transform>(value)
-                ?? new Transform();
-        }
-
-        [Column("movement", Order = 3)]
-        public string? MovementJson
-        {
-            get => JsonConvert.SerializeObject(Movement);
-            set => Movement = value != null ? JsonConvert.DeserializeObject<Movement>(value) : null;
-        }
-
-        [Column("created_at", Order = 4)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime CreatedAt { get; set; }
-
-        [Column("updated_at", Order = 5)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime UpdatedAt { get; set; }
+        public abstract void Init(ModelBuilder builder);
     }
 }
-//path: src\Schema\Engine\Movement.cs
+//path: src\Schema\Core\SceneRow.cs
 
-namespace SouthSeas.Schema.Engine
-{
-    public class Movement
-    {
-        public float Speed { get; set; }
-        public float Direction { get; set; }
-    }
-}//path: src\Schema\Engine\Transform.cs
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
-namespace SouthSeas.Schema.Engine
-{
-    public class Transform
-    {
-        public Vector3 Position { get; set; } = new Vector3();
-        public Vector3 Rotation { get; set; } = new Vector3();
-        public Vector3 Scale { get; set; } = new Vector3();
-    }
-}//path: src\Schema\Engine\Vector3.cs
+using SouthSeas.Schema.Columns;
 
-namespace SouthSeas.Schema.Engine
+namespace SouthSeas.Schema.Core
 {
-    public class Vector3
+    [Table("cards_scene_7")]
+    public class SceneRow
     {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Z { get; set; }
+        [Key]
+        [Column("row_id")]
+        public Guid RowId { get; set; }
+
+        [Column("tags")]
+        public string[]? Tags { get; set; } = [];
+        [Column("suit")]
+        public string? Suit { get; set; } = null;
+        [Column("rank")]
+        public string? Rank { get; set; } = null;
+
+        public Player? Owner { get; set; }
+        public Player? Player { get; set; }
+        public Transform? Transform { get; set; }
+
+        [Column("image_url")]
+        public string? ImageUrl { get; set; } = null;
+
+        public void Init(ModelBuilder builder)
+        {
+            Console.WriteLine("SceneRow Init()");
+
+            InitScene(builder);
+            InitColumns(builder);
+        }
+
+        void InitScene(ModelBuilder builder)
+        {
+            builder.Entity<SceneRow>()
+                .Property(e => e.RowId)
+                .HasDefaultValueSql("gen_random_uuid()");
+        }
+
+        void InitColumns(ModelBuilder builder)
+        {
+            var props = typeof(SceneRow).GetProperties().ToList();
+            foreach (var prop in props)
+            {
+                if (!IsSceneColumn(prop.PropertyType)) continue;
+
+                builder.Entity<SceneRow>()
+                    .Property($"{prop.Name}ColumnId")
+                    .HasColumnName(prop.Name.ToLower());
+            }
+
+            var tableEntityTypes = GetTableEntityTypes();
+            foreach (var entityType in tableEntityTypes)
+            {
+                var instance = Activator.CreateInstance(entityType) as SceneColumn;
+                builder.Entity(entityType)
+                    .Property("ColumnId")
+                    .HasDefaultValueSql("gen_random_uuid()");
+
+                instance?.Init(builder);
+            }
+        }
+
+        bool IsSceneColumn(Type type)
+            => typeof(SceneColumn).IsAssignableFrom(type);
+
+        List<Type> GetTableEntityTypes()
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            return assemblies.SelectMany(a => a.GetTypes())
+                .Where(t => t != typeof(SceneColumn) && typeof(SceneColumn).IsAssignableFrom(t))
+                .ToList();
+        }
     }
 }
