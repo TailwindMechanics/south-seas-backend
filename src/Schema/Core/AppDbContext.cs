@@ -1,15 +1,16 @@
-//path: src\SchemaGen\AppDbContext.cs
+//path: src\Schema\Core\AppDbContext.cs
 
 using Microsoft.EntityFrameworkCore;
 
-using SouthSeas.Schema;
+using SouthSeas.Schema.Core;
 
-namespace SouthSeas.SchemaGen
+namespace SouthSeas.Schema.Utils
 {
     public class AppDbContext : DbContext
     {
-        // dotnet ef migrations add InitialCreate
+        // dotnet ef migrations add Scene_1_M_1
         // dotnet ef database update
+        // DROP TABLE IF EXISTS scene_5, __EFMigrationsHistory, bench, car, movement, player, transform;
 
         public DbSet<SceneRow> SceneRows { get; set; }
 
@@ -23,27 +24,21 @@ namespace SouthSeas.SchemaGen
         {
             base.OnModelCreating(builder);
 
-            var tableEntityTypes = GetTableEntityTypes();
-            tableEntityTypes.ForEach(tableEntityType =>
-            {
-                builder.Entity(tableEntityType)
-                    .Property("Id")
-                    .HasDefaultValueSql("gen_random_uuid()");
-            });
+            Activator.CreateInstance<SceneRow>()?.Init(builder);
 
-            builder.GenFloat3<Transform>("Position", [0, 0, 0]);
-            builder.GenFloat3<Transform>("Rotation", [0, 0, 0]);
-            builder.GenFloat3<Transform>("Scale", [1, 1, 1]);
-            builder.GenString<Player>("Name", "Untitled");
-            builder.GenFloat<Movement>("Speed", 1f);
-            builder.GenString<Car>("Name", "Untiled");
+            var tableEntityTypes = GetTableEntityTypes();
+            foreach (var entityType in tableEntityTypes)
+            {
+                var instance = Activator.CreateInstance(entityType) as SceneColumn;
+                instance?.Init(builder);
+            }
         }
 
         public List<Type> GetTableEntityTypes()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             return assemblies.SelectMany(a => a.GetTypes())
-                .Where(t => t != typeof(TableEntity) && typeof(TableEntity).IsAssignableFrom(t))
+                .Where(t => t != typeof(SceneColumn) && typeof(SceneColumn).IsAssignableFrom(t))
                 .ToList();
         }
     }

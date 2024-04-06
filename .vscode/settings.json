@@ -1,5 +1,8 @@
 {
   "workbench.colorTheme": "Monokai Night",
+  "editor.stickyScroll.enabled": false,
+  "workbench.tree.enableStickyScroll" : false,
+  "breadcrumbs.enabled": false,
   "editor.codeLens": false,
   "editor.formatOnSave": true,
   "[csharp]": {
@@ -32,7 +35,8 @@
     "ClientChannels": "Client",
     "Migrations": "Upload",
     "WebSockets": "Messages",
-    "SchemaGen": "Class"
+    "SchemaGen": "Class",
+    "Columns": "Components"
   },
   "material-icon-theme.files.associations": {
     "root": "Tree"

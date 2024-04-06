@@ -27,14 +27,14 @@ south-seas-backend
    ├─ Logs
    │  ├─ Log.cs
    │  └─ Loggers.cs
-   ├─ Schema
-   │  ├─ Car.cs
-   │  ├─ Movement.cs
-   │  ├─ Player.cs
-   │  ├─ SceneRow.cs
-   │  ├─ TableEntity.cs
-   │  ├─ Transform.cs
-   │  └─ Vector3.cs
-   └─ SchemaGen
-      ├─ AppDbContext.cs
-      └─ ModelBuilderExtensions.cs
+   └─ Schema
+      ├─ Columns
+      │  ├─ Bench.cs
+      │  ├─ Car.cs
+      │  ├─ Movement.cs
+      │  ├─ Player.cs
+      │  └─ Transform.cs
+      └─ Core
+         ├─ AppDbContext.cs
+         ├─ SceneColumn.cs
+         └─ SceneRow.cs
